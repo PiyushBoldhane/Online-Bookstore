@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Bookstore</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <h1 class="logo"><a href="/">📚 Online Bookstore</a></h1>
+        <a href="/cart" class="cart-link">🛒 Cart</a>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">{% block content %}{% endblock %}</div>
+
+    <!-- ✅ Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- ✅ JS -->
+    <script>
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.background = type === "success" ? "#28a745" : "#e74c3c"; // green or red
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
+
+      // Intercept Add to Cart links
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn").forEach((btn) => {
+          if (btn.textContent.includes("Add to Cart")) {
+            btn.addEventListener("click", function (e) {
+              e.preventDefault();
+              fetch(this.href)
+                .then(() => {
+                  showToast("✅ Item added to cart!", "success");
+                })
+                .catch(() => {
+                  showToast("⚠️ Something went wrong!", "error");
+                });
+            });
+          }
+        });
+
+        // Intercept - buttons for remove
+        document.querySelectorAll(".decrease-btn").forEach((btn) => {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            fetch(this.href)
+              .then(() => {
+                showToast("❌ Item removed from cart", "error");
+              })
+              .catch(() => {
+                showToast("⚠️ Something went wrong!", "error");
+              });
+          });
+        });
+
+        // ✅ Intercept Place Order button
+        document.querySelectorAll(".place-order-btn").forEach((btn) => {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            fetch(this.href)
+              .then((res) => res.json())
+              .then((data) => {
+                showToast("🎉 " + data.message, "success");
+                setTimeout(() => {
+                  window.location.href = "/"; // redirect after order
+                }, 2000);
+              })
+              .catch(() => {
+                showToast("⚠️ Could not place order!", "error");
+              });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

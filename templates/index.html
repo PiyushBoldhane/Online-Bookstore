@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% block content %}
+<h2 class="title">Available Books</h2>
+
+<div class="book-grid">
+  {% for book in books %}
+  <div class="book-card">
+    <h3>{{ book[1] }}</h3>
+    <p class="author">By {{ book[2] }}</p>
+    <p class="price">₹{{ book[3] }}</p>
+    <a href="#" class="btn add-to-cart" data-id="{{ book[0] }}">Add to Cart</a>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">Item added to cart!</div>
+
+<script>
+  document.querySelectorAll(".add-to-cart").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const bookId = btn.getAttribute("data-id");
+
+      fetch(`/add_to_cart/${bookId}`, { method: "POST" })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            showToast("✅ Item added to cart!");
+          } else {
+            showToast("❌ Failed to add item.");
+          }
+        })
+        .catch(() => showToast("⚠️ Error adding item."));
+    });
+  });
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2000);
+  }
+</script>
+
+<style>
+  .toast {
+    visibility: hidden;
+    min-width: 200px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 14px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.4s, visibility 0.4s;
+  }
+
+  .toast.show {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+{% endblock %}

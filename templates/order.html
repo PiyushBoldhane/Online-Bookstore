@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+<div class="order-box">
+  {% if error %}
+  <h2>{{ error }}</h2>
+  <a href="/" class="btn">← Back to Store</a>
+  {% else %}
+  <h2>✅ Order Placed Successfully!</h2>
+  <p>Thank you for your purchase. Your books will be delivered soon.</p>
+  <a href="/" class="btn">← Continue Shopping</a>
+  <a href="{{ url_for('bill', order_id=order_id) }}" class="btn"
+    >🔍 View Invoice</a
+  >
+  {% endif %}
+</div>
+{% endblock %}
