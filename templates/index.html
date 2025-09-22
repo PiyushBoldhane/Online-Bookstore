@@ -5,8 +5,13 @@
   {% for book in books %}
   <div class="book-card">
     <h3>{{ book[1] }}</h3>
+    <!-- title -->
     <p class="author">By {{ book[2] }}</p>
+    <!-- author -->
     <p class="price">₹{{ book[3] }}</p>
+    <!-- price -->
+    <p class="desc">{{ book[5] }}</p>
+    <!-- description -->
     <a href="#" class="btn add-to-cart" data-id="{{ book[0] }}">Add to Cart</a>
   </div>
   {% endfor %}

@@ -10,27 +10,45 @@ def init_db():
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS books (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT,
+                    title TEXT NOT NULL,
                     author TEXT,
-                    price REAL)''')
+                    price REAL NOT NULL,
+                    stock INTEGER DEFAULT 0 CHECK (stock >= 0),
+                    description TEXT
+                )''')
+
     c.execute('''CREATE TABLE IF NOT EXISTS orders (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    book_id INTEGER,
-                    quantity INTEGER,
-                    total REAL)''')
+                    customer_name TEXT NOT NULL,
+                    customer_email TEXT NOT NULL,
+                    total REAL NOT NULL,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )''')
+
+    c.execute('''CREATE TABLE IF NOT EXISTS order_items (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    order_id INTEGER NOT NULL,
+                    book_id INTEGER NOT NULL,
+                    quantity INTEGER NOT NULL CHECK (quantity > 0),
+                    price_at_purchase REAL NOT NULL,
+                    FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE,
+                    FOREIGN KEY(book_id) REFERENCES books(id)
+                )''')
+
     conn.commit()
 
-    # Sample books
+    # Sample books (only insert if empty)
     c.execute("SELECT COUNT(*) FROM books")
     if c.fetchone()[0] == 0:
-        c.executemany("INSERT INTO books (title, author, price) VALUES (?, ?, ?)", [
-            ("Atomic Habits", "James Clear", 350),
-            ("The Alchemist", "Paulo Coelho", 299),
-            ("Python Crash Course", "Eric Matthes", 600),
-            ("Clean Code", "Robert C. Martin", 700)
+        c.executemany("INSERT INTO books (title, author, price, stock, description) VALUES (?, ?, ?, ?, ?)", [
+            ("Clean Code", "Robert C. Martin", 299.0, 5, "A Handbook of Agile Software Craftsmanship"),
+            ("Introduction to Algorithms", "Cormen et al.", 799.0, 2, "Comprehensive algorithms book"),
+            ("The Pragmatic Programmer", "Andrew Hunt", 399.0, 4, "Classic software engineering book"),
+            ("Fundamentals Of C Language", "Ayush Salve", 300.0, 4, "Beginner-friendly C language guide")
         ])
     conn.commit()
     conn.close()
+
 
 @app.route("/")
 def index():

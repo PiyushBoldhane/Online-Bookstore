@@ -44,3 +44,15 @@ INSERT INTO books (title, author, price, stock, description) VALUES
 ('Clean Code', 'Robert C. Martin', 299.0, 5, 'A Handbook of Agile Software Craftsmanship'),
 ('Introduction to Algorithms', 'Cormen et al.', 799.0, 2, 'Comprehensive algorithms book'),
 ('The Pragmatic Programmer', 'Andrew Hunt', 399.0, 4, 'Classic software engineering book');
+('Fundamentals Of C Language', 'Ayush Salve', 300.0, 4, 'Classic software engineering book');
+INSERT INTO books (title, author, price, stock, description) VALUES
+("Clean Code", "Robert C. Martin", 550, 10, "Guide to writing clean, maintainable code"),
+("The Pragmatic Programmer", "Andrew Hunt & David Thomas", 600, 8, "Best practices and tips for programmers"),
+("Introduction to Algorithms", "Thomas H. Cormen", 750, 5, "Comprehensive algorithms textbook"),
+("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma et al.", 650, 7, "Classic book on design patterns"),
+("Code Complete", "Steve McConnell", 700, 6, "Software construction and coding practices"),
+("Head First Java", "Kathy Sierra & Bert Bates", 500, 12, "Beginner-friendly Java programming guide"),
+("Python Crash Course", "Eric Matthes", 450, 15, "Hands-on introduction to Python"),
+("Effective C++", "Scott Meyers", 620, 4, "Tips and best practices for writing effective C++ code"),
+("JavaScript: The Good Parts", "Douglas Crockford", 400, 9, "Essential parts of JavaScript explained"),
+("You Don’t Know JS", "Kyle Simpson", 480, 11, "Deep dive into JavaScript concepts");
