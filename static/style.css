@@ -46,12 +46,17 @@ body {
   gap: 20px;
 }
 
+/* Book Card */
 .book-card {
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
+  display: flex; /* ✅ align content */
+  flex-direction: column; /* ✅ column layout */
+  justify-content: space-between; /* ✅ push button to bottom */
+  min-height: 250px; /* ✅ uniform card height */
 }
 
 .book-card h3 {
@@ -69,10 +74,22 @@ body {
   margin: 10px 0;
 }
 
+.book-card .desc {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+  flex-grow: 1; /* stretch to push button down */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* show max 4 lines */
+  -webkit-box-orient: vertical;
+}
+
 /* Buttons */
 .btn {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 8px 14px;
   background: #0077cc;
   color: white;
   text-decoration: none;
@@ -82,6 +99,14 @@ body {
 
 .btn:hover {
   background: #005fa3;
+}
+
+/* Make Add to Cart buttons uniform */
+.book-card .btn.add-to-cart {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  font-weight: bold;
 }
 
 /* Cart Table */
@@ -230,13 +255,13 @@ body {
   width: auto;
   max-width: 300px;
   min-height: 40px;
-  max-height: 40px; /* 👈 fixed height */
-  line-height: 20px; /* 👈 balanced text spacing */
+  max-height: 40px;
+  line-height: 20px;
   display: flex;
-  align-items: center; /* 👈 vertical center */
-  justify-content: center; /* 👈 horizontal center */
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  overflow: hidden; /* 👈 prevents text spill */
+  overflow: hidden;
 }
 
 .toast.show {
